@@ -10,6 +10,7 @@ class UserServices
 {
     public function info(): Response
     {
+        dd(auth('sanctum')->user());
         return response(['status' => true, 'user' => auth()->user()]);
     }
 

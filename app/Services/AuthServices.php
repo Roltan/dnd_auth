@@ -21,8 +21,9 @@ class AuthServices
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+//        Auth::login($user);
 
-        return $this->generateTokenResponse(Auth::login($user));
+        return $this->generateTokenResponse($user);
     }
 
     public function login(LoginRequest $request): Response
@@ -32,10 +33,10 @@ class AuthServices
             'password' => $request['password']
         ];
 
-        if (!$token = Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response(['status' => false, 'error' => 'Неверные данные'], 401);
 
-        return $this->generateTokenResponse($token);
+        return $this->generateTokenResponse(Auth::user());
     }
 
     public function logout(): Response
@@ -78,7 +79,7 @@ class AuthServices
         ]);
     }
 
-    protected function createRefreshToken(User $user): Response
+    protected function createRefreshToken(User $user): RefreshToken
     {
         return RefreshToken::create([
             'user_id' => $user->id,
