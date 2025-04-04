@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,6 +9,20 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthServices
 {
+    public function register(Request $request): Response
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return response([
+            'status' => true,
+            'token' => $user->createToken($user->name)->plainTextToken
+        ]);
+    }
+
     public function login(Request $request): Response
     {
         $user = User::query()
@@ -23,5 +36,11 @@ class AuthServices
             'status' => true,
             'token' => $user->createToken($user->name)->plainTextToken
         ]);
+    }
+
+    public function logout(): Response
+    {
+        request()->user()->currentAccessToken()->delete();
+        return response(['status' => true]);
     }
 }
