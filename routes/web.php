@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,14 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/info', [UserController::class, 'info']);
-
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login']);
-Route::get('/logout', [UserController::class, 'logout']);
-
-Route::post('/refresh', [UserController::class, 'refresh']);
-Route::post('/forgot', [UserController::class, 'forgot']);
-Route::get('/viewResetPassword', [UserController::class, 'viewResetPassword']);
-Route::post('/changePassword', [UserController::class, 'changePassword']);
-Route::post('/edit', [UserController::class, 'edit']);
+Route::get('/', function () {
+    return view('welcome');
+});
