@@ -6,7 +6,6 @@ use App\Http\Requests\EmailRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ResetRequest;
 use App\Mail\PasswordResetMail;
-use App\Services\PasswordService;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -15,12 +14,6 @@ use Illuminate\Support\Facades\Password;
 
 class PasswordController extends Controller
 {
-    public function __construct(
-        private PasswordService $passwordService
-    )
-    {
-    }
-
     public function forgot(EmailRequest $request): Response
     {
         $user = User::query()
@@ -32,7 +25,7 @@ class PasswordController extends Controller
 
         $token = app('auth.password.broker')->createToken($user);
 
-        $resetLink = '/password/reset/?token=' . $token . '&email=' . $request->email;
+        $resetLink = '/password/reset?token=' . $token . '&email=' . $request->email;
 
         Mail::to($user->email)->send(new PasswordResetMail($resetLink));
 
@@ -48,8 +41,7 @@ class PasswordController extends Controller
             return response(['status' => false, 'message' => 'user not found'], 404);
 
         return response([
-            'status' => true,
-            'email' => $email
+            'status' => true
         ]);
     }
 

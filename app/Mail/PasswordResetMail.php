@@ -41,7 +41,7 @@ class PasswordResetMail extends Mailable
                 <body>
                     <p>Здравствуйте,</p>
                     <p>Мы получили запрос на сброс вашего пароля. Нажмите на ссылку ниже, чтобы сбросить свой пароль:</p>
-                    <a href='" . env('APP_URL') . $this->resetLink . "'>Reset Password</a>
+                    <a href='" . env('DOMEN') . $this->resetLink . "'>Reset Password</a>
                     <p>Если вы не запрашивали сброс пароля, пожалуйста, проигнорируйте это письмо.</p>
                 </body>
                 </html>
