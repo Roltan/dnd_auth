@@ -19,10 +19,11 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
+        $token = $user->createToken($user->name)->plainTextToken;
         return response([
             'status' => true,
             'token' => $user->createToken($user->name)->plainTextToken
-        ]);
+        ])->withCookie(cookie('auth_token', $token, 7*24*60*60));
     }
 
     public function login(LoginRequest $request): Response
@@ -34,10 +35,11 @@ class AuthController extends Controller
         if (!$user or !Hash::check($request->password, $user->password))
             return response(['status' => false, 'message' => 'Invalid credentials'], 401);
 
+        $token = $user->createToken($user->name)->plainTextToken;
         return response([
             'status' => true,
-            'token' => $user->createToken($user->name)->plainTextToken
-        ]);
+            'token' => $token,
+        ])->cookie(cookie('auth_token', $token, 7*24*60*60, secure: false));
     }
 
     public function logout(): Response
