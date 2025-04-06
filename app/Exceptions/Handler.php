@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,5 +45,24 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function shouldReturnJson($request, Throwable $e)
+    {
+        return true;
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Обрабатываем ошибки валидации для API
+        if ($exception instanceof ValidationException && $request->is('api/*')) {
+            return response()->json([
+                'status' => false,
+                'errors' => $exception->validator->errors(),
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
+
+        return parent::render($request, $exception);
     }
 }
