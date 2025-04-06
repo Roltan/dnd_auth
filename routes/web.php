@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('/info', [UserController::class, 'info']);
 
 Route::post('/register', [UserController::class, 'register']);

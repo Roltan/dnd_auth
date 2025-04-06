@@ -25,8 +25,15 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function refreshToken()
-    {
-        return $this->hasMany(RefreshToken::class);
+    // Для JWT-auth:
+    public function getJWTIdentifier() {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims() {
+        return [
+            'exp' => now()->addMinutes(config('jwt.access_ttl'))->timestamp, // access token expiry
+            'refresh_exp' => now()->addMinutes(config('jwt.refresh_ttl'))->timestamp // refresh token expiry
+        ];
     }
 }
