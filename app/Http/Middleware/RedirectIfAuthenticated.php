@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return response(['status'=>false, 'modal'=>'you Authenticated'], 40);
+                return response(['status'=>false, 'modal'=>'you Authenticated'], 403);
             }
         }
 
