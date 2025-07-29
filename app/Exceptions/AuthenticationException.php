@@ -11,7 +11,7 @@ class AuthenticationException extends Exception
     protected array $additionalData = [];
 
     public function __construct(
-        string $message = 'You un authorized',
+        string $message = 'Unauthorized',
         int $code = 403,
         array $arr = []
     ) {
