@@ -34,7 +34,7 @@ use Illuminate\Routing\Controller as BaseController;
  *          schema="AuthenticationErrorResponse",
  *          title="AuthenticationErrorResponse",
  *          @OA\Property(property="status", type="bool", example="false"),
- *          @OA\Property(property="message", type="string", example="You un authorized")
+ *          @OA\Property(property="message", type="string", example="Unauthorized")
  *      )
  * )
  */

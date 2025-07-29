@@ -16,6 +16,7 @@ class PasswordRequest extends FormRequest
         return [
             'email' => ['required', 'email'],
             'password' => ['required', 'string', 'regex:/^.*(?=.{8,})(?=.*[a-zA-Z])(?=.*\d).*$/', 'confirmed'],
+            'token' => ['required', 'string']
         ];
     }
 }
