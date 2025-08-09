@@ -55,7 +55,7 @@ class AuthController extends Controller
         return response([
             'status' => true,
             'token' => $user->createToken($user->name)->plainTextToken
-        ])->withCookie(cookie('auth_token', $token, 7 * 24 * 60 * 60));
+        ])->withCookie(cookie('auth_token', $token, 7 * 24 * 60 * 60, httpOnly: false));
     }
 
     /**
@@ -101,7 +101,7 @@ class AuthController extends Controller
         return response([
             'status' => true,
             'token' => $token,
-        ])->cookie(cookie('auth_token', $token, 7 * 24 * 60 * 60, secure: false));
+        ])->cookie(cookie('auth_token', $token, 7 * 24 * 60 * 60, secure: false, httpOnly: false));
     }
 
     /**
